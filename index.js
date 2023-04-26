@@ -3,7 +3,7 @@ import "./util/dotenvConfig.js";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { user_router as router } from "./routes/users.js";
+import { user_router } from "./routes/users.js";
 
 // -------------------------- IMPORTANT CONSTANTS
 const app = express();
@@ -17,8 +17,8 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // -------------------------- ROUTES
-// USER
-app.use(API_VERSION + USER_ROUTE, router);
+// USER - GetAll - getOne - edit - delete - add(register) - login - auth(token) - logout
+app.use(API_VERSION + USER_ROUTE, user_router);
 
 // -------------------------- SERVER LISTEN
 app.listen(PORT, () => {

@@ -1,9 +1,10 @@
 import { ObjectId } from "mongodb";
 import { getDb } from "../util/db.js";
+import { createToken } from "../util/token.js";
 
 // ---------------------------------------- GET ALL USER
 // need: nothing
-export const getAllUser = async (req, res) => {
+export const getAllUser = async (_, res) => {
   const db = await getDb();
   const allUser = await db.collection(process.env.DB_COL_USER).find({}).toArray();
   res.json(allUser);
@@ -19,7 +20,14 @@ export const getUser = async (req, res) => {
   res.json(user);
 };
 
-// ---------------------------------------- ADD USER
+// ---------------------------------------- LOGOUT USER
+// need: nothing
+export const logoutUser = async (_, res) => {
+  res.clearCookie("token");
+  res.end();
+};
+
+// ---------------------------------------- ADD(register) USER
 // need: body.email / body.password
 export const addUser = async (req, res) => {
   const db = await getDb();
@@ -27,10 +35,30 @@ export const addUser = async (req, res) => {
     .collection(process.env.DB_COL_USER)
     .findOne({ email: req.body.email });
   if (checkEmail) return res.json({ error: "E-Mail exists!" });
-  const addUserResult = await db
-    .collection(process.env.DB_COL_USER)
-    .insertOne({ email: req.body.email, password: req.body.password });
+  const addUserResult = await db.collection(process.env.DB_COL_USER).insertOne({
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    birthday: req.body.birthday,
+    email: req.body.email,
+    password: req.body.password,
+    regdate: new Date().toLocaleDateString() + " - " + new Date().toLocaleTimeString(),
+  });
   res.json(addUserResult);
+};
+
+// ---------------------------------------- LOGIN USER
+// need: body.email / body.password
+export const loginUser = async (req, res) => {
+  const db = await getDb();
+  const loginUserResult = await db
+    .collection(process.env.DB_COL_USER)
+    .findOne({ email: req.body.email, password: req.body.password });
+  if (!loginUserResult) res.status(401).end();
+  else {
+    const token = createToken(loginUserResult);
+    res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "none" });
+    res.end();
+  }
 };
 
 // ---------------------------------------- EDIT USER EMAIL

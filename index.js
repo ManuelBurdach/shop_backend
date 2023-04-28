@@ -11,9 +11,10 @@ const app = express();
 const PORT = process.env.PORT || 10000;
 const API_VERSION = process.env.API_VERSION;
 const USER_ROUTE = process.env.USER_ROUTE;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 // -------------------------- MIDDLEWARE
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: FRONTEND_URL, credentials: true }));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());

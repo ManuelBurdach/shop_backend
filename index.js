@@ -8,9 +8,9 @@ import cookieParser from "cookie-parser";
 
 // -------------------------- IMPORTANT CONSTANTS
 const app = express();
-const PORT = process.env.PORT;
-const API_VERSION = process.env.API_VERSION;
-const USER_ROUTE = process.env.USER_ROUTE;
+const PORT = process.env.PORT || 10000;
+const API_VERSION = process.env.API_VERSION || "api/v1/";
+const USER_ROUTE = process.env.USER_ROUTE || "user/";
 
 // -------------------------- MIDDLEWARE
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 // -------------------------- ROUTES
 // USER - GetAll - getOne - edit - delete - add(register) - login - auth(token) - logout
-app.use(API_VERSION + USER_ROUTE, user_router);
+// app.use(API_VERSION + USER_ROUTE, user_router);
 
 // -------------------------- SERVER LISTEN
 app.listen(PORT, () => {

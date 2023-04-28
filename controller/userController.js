@@ -30,8 +30,8 @@ export const verifyUser = async (req, res) => {
 // ---------------------------------------- LOGOUT USER
 // need: nothing
 export const logoutUser = async (_, res) => {
-  res.clearCookie("token", {});
-  res.json({ firstname: "Guest", isLoggedIn: false });
+  res.clearCookie("token");
+  res.end();
 };
 
 // ---------------------------------------- ADD(register) USER

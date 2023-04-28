@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { getDb } from "../util/db.js";
 import { createToken } from "../util/token.js";
+import { verifyToken } from "../middleware/verify.js";
 
 // ---------------------------------------- GET ALL USER
 // need: nothing
@@ -20,11 +21,17 @@ export const getUser = async (req, res) => {
   res.json(user);
 };
 
+// ---------------------------------------- VERIFY USER
+// need: body.userId
+export const verifyUser = async (req, res) => {
+  res.json({ firstname: req.claim.firstname, isLoggedIn: true });
+};
+
 // ---------------------------------------- LOGOUT USER
 // need: nothing
 export const logoutUser = async (_, res) => {
   res.clearCookie("token");
-  res.end();
+  res.json({ firstname: "Guest", isLoggedIn: false });
 };
 
 // ---------------------------------------- ADD(register) USER
@@ -57,7 +64,7 @@ export const loginUser = async (req, res) => {
   else {
     const token = createToken(loginUserResult);
     res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "none" });
-    res.end();
+    res.json({ firstname: loginUserResult.firstname, isLoggedIn: true });
   }
 };
 

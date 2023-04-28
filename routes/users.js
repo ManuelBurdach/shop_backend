@@ -7,16 +7,19 @@ import {
   getUser,
   loginUser,
   logoutUser,
+  verifyUser,
 } from "../controller/userController.js";
 import { encryptPassword } from "../middleware/encryptPassword.js";
 import { validation } from "../middleware/validator.js";
 import { body } from "express-validator";
+import { verifyToken } from "../middleware/verify.js";
 
 export const user_router = new express.Router();
 
 // ---------------------------------------- GET
 user_router.get("/getAll", getAllUser);
 user_router.get("/get", getUser);
+user_router.get("/verify", verifyToken, verifyUser);
 
 //logout
 user_router.get("/logout", logoutUser);

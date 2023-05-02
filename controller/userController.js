@@ -63,7 +63,13 @@ export const loginUser = async (req, res) => {
   if (!loginUserResult) res.status(401).end();
   else {
     const token = createToken(loginUserResult);
-    res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "none" });
+    res.cookie("token", token, {
+      domain: "https://shop-frontend-rnz0.onrender.com",
+      path: "/",
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
     res.json({ firstname: loginUserResult.firstname, isLoggedIn: true });
   }
 };

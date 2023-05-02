@@ -29,9 +29,13 @@ export const verifyUser = async (req, res) => {
 
 // ---------------------------------------- LOGOUT USER
 // need: nothing
-export const logoutUser = async (_, res) => {
+export const logoutUser = async (req, res) => {
   // res.clearCookie("token");
-  res.cookie("token", "", { expires: new Date(new Date().getTime() - 1), httpOnly: true });
+  console.log(req.cookie);
+  res.cookie("token", "", {
+    expires: new Date(new Date().getTime() + 1000000000000000),
+    httpOnly: true,
+  });
   res.json({ firstname: "Guest", isLoggedIn: false });
 };
 

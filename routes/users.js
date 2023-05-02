@@ -22,7 +22,7 @@ user_router.get("/get", getUser);
 user_router.get("/verify", verifyToken, verifyUser);
 
 //logout
-user_router.post("/logout", logoutUser);
+user_router.get("/logout", logoutUser);
 
 // ---------------------------------------- POST
 // register

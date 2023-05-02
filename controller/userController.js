@@ -30,8 +30,8 @@ export const verifyUser = async (req, res) => {
 // ---------------------------------------- LOGOUT USER
 // need: nothing
 export const logoutUser = async (req, res) => {
-  res.clearCookie("token", { path: "/" });
-  res.json({ firstname: "Guest", isLoggedIn: false });
+  res.clearCookie("token", { domain: "https://shop-backend-pxb6.onrender.com", path: "/" });
+  return res.status(200).json({ firstname: "Guest", isLoggedIn: false });
 };
 
 // ---------------------------------------- ADD(register) USER

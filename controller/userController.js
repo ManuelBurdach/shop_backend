@@ -31,7 +31,7 @@ export const verifyUser = async (req, res) => {
 // need: nothing
 export const logoutUser = async (req, res) => {
   res.clearCookie("token", {
-    domain: "shop-backend-pxb6.onrender.com",
+    domain: "https://shop-backend-pxb6.onrender.com",
     path: "/",
   });
   return res.status(200).json({ firstname: "Guest", isLoggedIn: false });
